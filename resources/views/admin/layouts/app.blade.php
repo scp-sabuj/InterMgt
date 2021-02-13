@@ -11,12 +11,20 @@
         <title>Adminto - Responsive Admin Dashboard Template</title>
 
         <!--Morris Chart CSS -->
+		<link rel="stylesheet" href="{{ asset('admin/assets/css/all.min.css') }}">
+		<link rel="stylesheet" href="{{ asset('admin/assets/css/fontawesome.min.css') }}">
+
+        <!--Morris Chart CSS -->
 		<link rel="stylesheet" href="{{ asset('admin/assets/plugins/morris/morris.css') }}">
+
+        <!--Toaster aleart CSS -->
+		<link rel="stylesheet" href="{{ asset('admin/assets/css/toastr.min.css') }}">
 
         <!-- App css -->
         <link href="{{ asset('admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('admin/assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('admin/assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
 
         <script src="{{ asset('admin/assets/js/modernizr.min.js') }}"></script>
 
@@ -130,7 +138,7 @@
                             </li>
 
                             <li>
-                                <a href="typography.html" class="waves-effect"><i class="mdi mdi-format-font"></i> <span> Typography </span> </a>
+                                <a href="{{ route('package') }}" class="waves-effect"><i class="mdi mdi-format-font"></i> <span> Package </span> </a>
                             </li>
 
                             <li class="has_sub">
@@ -373,6 +381,10 @@
 		<script src="{{ asset('admin/assets/plugins/morris/morris.min.js') }}"></script>
 		<script src="{{ asset('admin/assets/plugins/raphael/raphael-min.js') }}"></script>
 
+        <!--toastr aleart Chart-->
+		<script src="{{ asset('admin/assets/js/toastr.min.js') }}"></script>
+		<script src="{{ asset('admin/assets/js/toastr.js') }}"></script>
+
         <!-- Dashboard init -->
         <script src="{{ asset('admin/assets/pages/jquery.dashboard.js') }}"></script>
 
@@ -380,5 +392,8 @@
         <script src="{{ asset('admin/assets/js/jquery.core.js') }}"></script>
         <script src="{{ asset('admin/assets/js/jquery.app.js') }}"></script>
 
+        @yield('section_script')
+        
+    
     </body>
 </html>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePackageModelsTable extends Migration
+class CreateCustomerModelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreatePackageModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('package_models', function (Blueprint $table) {
+        Schema::create('customer_models', function (Blueprint $table) {
             $table->id();
-            $table->string('package_title');
-            $table->string('package_speed');
-            $table->integer('package_price');
-            $table->longText('package_discription');
+            $table->integer('package_id');
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('nid');
+            $table->string('address');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreatePackageModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('package_models');
+        Schema::dropIfExists('customer_models');
     }
 }
