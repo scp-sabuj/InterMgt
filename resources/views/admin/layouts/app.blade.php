@@ -11,20 +11,23 @@
         <title>Adminto - Responsive Admin Dashboard Template</title>
 
         <!--Morris Chart CSS -->
-		<link rel="stylesheet" href="{{ asset('admin/assets/css/all.min.css') }}">
-		<link rel="stylesheet" href="{{ asset('admin/assets/css/fontawesome.min.css') }}">
-
-        <!--Morris Chart CSS -->
 		<link rel="stylesheet" href="{{ asset('admin/assets/plugins/morris/morris.css') }}">
+        
 
-        <!--Toaster aleart CSS -->
-		<link rel="stylesheet" href="{{ asset('admin/assets/css/toastr.min.css') }}">
+        <!-- DataTables -->
+        <link href="{{ asset('admin/assets/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('admin/assets/plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- Responsive datatable examples -->
+        <link href="{{ asset('admin/assets/plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- form Uploads -->
+        <link href="{{ asset('admin/assets/plugins/fileuploads/css/dropify.min.css') }}" rel="stylesheet" type="text/css" />
+
 
         <!-- App css -->
         <link href="{{ asset('admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('admin/assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('admin/assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
 
         <script src="{{ asset('admin/assets/js/modernizr.min.js') }}"></script>
 
@@ -105,8 +108,14 @@
                     <!-- User -->
                     <div class="user-box">
                         <div class="user-img">
-                            <img src="assets/images/users/avatar-1.jpg" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
-                            <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
+                            @if (Auth::user()->profile_photo_path == "")
+                                <img src="{{ asset('storage/profile-photos/noImg.png') }}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                                <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
+                            @else
+                                <img src="{{ asset('storage/'.Auth::user()->profile_photo_path) }}" alt="user-img" title="Mat Helme" class="rounded-circle img-thumbnail img-responsive">
+                                <div class="user-status offline"><i class="mdi mdi-adjust"></i></div>
+                            @endif
+                            
                         </div>
                         <h5><a href="#">{{ Auth::user()->name }}</a> </h5>
                         <ul class="list-inline">
@@ -134,11 +143,11 @@
                         	<li class="text-muted menu-title">Navigation</li>
 
                             <li>
-                                <a href="index.html" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> Dashboard </span> </a>
+                                <a href="{{ route('dashboard') }}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i> <span> Dashboard </span> </a>
                             </li>
 
                             <li>
-                                <a href="{{ route('package') }}" class="waves-effect"><i class="mdi mdi-format-font"></i> <span> Package </span> </a>
+                                <a href="{{ route('adminlist') }}" class="waves-effect"><i class="mdi mdi-format-font"></i> <span> Admin List </span> </a>
                             </li>
 
                             <li class="has_sub">
@@ -381,10 +390,6 @@
 		<script src="{{ asset('admin/assets/plugins/morris/morris.min.js') }}"></script>
 		<script src="{{ asset('admin/assets/plugins/raphael/raphael-min.js') }}"></script>
 
-        <!--toastr aleart Chart-->
-		<script src="{{ asset('admin/assets/js/toastr.min.js') }}"></script>
-		<script src="{{ asset('admin/assets/js/toastr.js') }}"></script>
-
         <!-- Dashboard init -->
         <script src="{{ asset('admin/assets/pages/jquery.dashboard.js') }}"></script>
 
@@ -392,8 +397,55 @@
         <script src="{{ asset('admin/assets/js/jquery.core.js') }}"></script>
         <script src="{{ asset('admin/assets/js/jquery.app.js') }}"></script>
 
-        @yield('section_script')
+        <!-- Required datatable js -->
+        <script src="{{ asset('admin/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('admin/assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+        <!-- Buttons examples -->
+        <script src="{{ asset('admin/assets/plugins/datatables/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('admin/assets/plugins/datatables/buttons.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('admin/assets/plugins/datatables/jszip.min.js') }}"></script>
+        <script src="{{ asset('admin/assets/plugins/datatables/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('admin/assets/plugins/datatables/vfs_fonts.js') }}"></script>
+        <script src="{{ asset('admin/assets/plugins/datatables/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('admin/assets/plugins/datatables/buttons.print.min.js') }}"></script>
+        <!-- Responsive examples -->
+        <script src="{{ asset('admin/assets/plugins/datatables/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('admin/assets/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
+
         
-    
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#datatable').DataTable();
+
+                //Buttons examples
+                var table = $('#datatable-buttons').DataTable({
+                    lengthChange: false,
+                    buttons: ['copy', 'excel', 'pdf']
+                });
+
+                table.buttons().container()
+                        .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+            } );
+
+        </script>
+
+        <!-- file uploads js -->
+        <script src="{{ asset('admin/assets/plugins/fileuploads/js/dropify.min.js') }}"></script>
+
+        <script type="text/javascript">
+            $('.dropify').dropify({
+                messages: {
+                    'default': 'Drag and drop Your Profile Picture',
+                    'replace': 'Drag and drop or click to replace',
+                    'remove': 'Remove',
+                    'error': 'Ooops, something wrong appended.'
+                },
+                error: {
+                    'fileSize': 'The file size is too big (1M max).'
+                }
+            });
+        </script>
+
     </body>
 </html>
